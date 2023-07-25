@@ -15,31 +15,31 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot(),
 
     // TODO: Configuración Básica
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   // debug: false,
-    //   playground: false,
-    //   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    //   plugins: [ApolloServerPluginLandingPageLocalDefault()],
-    // }),
-
-    GraphQLModule.forRootAsync({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      imports: [AuthModule],
-      inject: [JwtService],
-      useFactory: async (jwtService: JwtService) => ({
-        playground: false,
-        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        plugins: [ApolloServerPluginLandingPageLocalDefault()],
-
-        context({ req }) {
-          const token = req.headers.authorization?.replace('Bearer', '').trim();
-          if (!token) throw Error('Token needed');
-          const payload = jwtService.decode(token);
-          if (!payload) throw Error('Token not valid');
-        },
-      }),
+      // debug: false,
+      playground: false,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+
+    // GraphQLModule.forRootAsync({
+    //   driver: ApolloDriver,
+    //   imports: [AuthModule],
+    //   inject: [JwtService],
+    //   useFactory: async (jwtService: JwtService) => ({
+    //     playground: false,
+    //     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    //     plugins: [ApolloServerPluginLandingPageLocalDefault()],
+
+    //     context({ req }) {
+    //       const token = req.headers.authorization?.replace('Bearer', '').trim();
+    //       if (!token) throw Error('Token needed');
+    //       const payload = jwtService.decode(token);
+    //       if (!payload) throw Error('Token not valid');
+    //     },
+    //   }),
+    // }),
 
     TypeOrmModule.forRoot({
       type: 'postgres',

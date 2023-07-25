@@ -2,20 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Item {
-  """ID Item """
-  id: ID!
-
-  """Name Item """
-  name: String!
-
-  """Quantity Item """
-  quantity: Float!
-
-  """Quantity Units Item """
-  quantityUnits: String
-}
-
 type User {
   """ID user"""
   id: ID!
@@ -34,6 +20,20 @@ type User {
 
   """Last update User"""
   lastUpdateBy: User
+  items: [Item!]!
+  itemCount: Int!
+}
+
+type Item {
+  """ID Item """
+  id: ID!
+
+  """Name Item """
+  name: String!
+
+  """Quantity Units Item """
+  quantityUnits: String
+  user: User!
 }
 
 type AuthResponse {
@@ -45,11 +45,11 @@ type AuthResponse {
 }
 
 type Query {
-  revalite: AuthResponse!
-  users(roles: [ValidRoles!] = []): [User!]!
-  user(id: ID!): User!
   items: [Item!]!
   item(id: ID!): Item!
+  users(roles: [ValidRoles!] = []): [User!]!
+  user(id: ID!): User!
+  revalite: AuthResponse!
 }
 
 """Roles permitos para los usuarios"""
@@ -60,13 +60,44 @@ enum ValidRoles {
 }
 
 type Mutation {
-  signup(signupInput: SignupInput!): AuthResponse!
-  login(loginInput: LoginInput!): AuthResponse!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  blockUser(id: ID!): User!
   createItem(createItemInput: CreateItemInput!): Item!
   updateItem(updateItemInput: UpdateItemInput!): Item!
   removeItem(id: ID!): Item!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  blockUser(id: ID!): User!
+  signup(signupInput: SignupInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
+}
+
+input CreateItemInput {
+  """Name Item """
+  name: String!
+
+  """Quantity Units Item """
+  quantityUnits: String
+}
+
+input UpdateItemInput {
+  """Name Item """
+  name: String
+
+  """Quantity Units Item """
+  quantityUnits: String
+  id: ID!
+}
+
+input UpdateUserInput {
+  """ Email user"""
+  email: String
+
+  """Fullname user"""
+  fullName: String
+
+  """Password user"""
+  password: String
+  id: ID!
+  roles: [ValidRoles!]
+  isActive: Boolean
 }
 
 input SignupInput {
@@ -86,41 +117,4 @@ input LoginInput {
 
   """Password user"""
   password: String!
-}
-
-input UpdateUserInput {
-  """ Email user"""
-  email: String
-
-  """Fullname user"""
-  fullName: String
-
-  """Password user"""
-  password: String
-  id: ID!
-  roles: [ValidRoles!]
-  isActive: Boolean
-}
-
-input CreateItemInput {
-  """Name Item """
-  name: String!
-
-  """Quantity Item """
-  quantity: Float!
-
-  """Quantity Units Item """
-  quantityUnits: String
-}
-
-input UpdateItemInput {
-  """Name Item """
-  name: String
-
-  """Quantity Item """
-  quantity: Float
-
-  """Quantity Units Item """
-  quantityUnits: String
-  id: ID!
 }
