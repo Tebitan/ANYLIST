@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type List {
+  """ID List """
+  id: ID!
+
+  """Name List """
+  name: String!
+  user: User!
+}
+
 type User {
   """ID user"""
   id: ID!
@@ -22,6 +31,8 @@ type User {
   lastUpdateBy: User
   itemCount: Int!
   items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  listCount: Int!
+  lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
 }
 
 type Item {
@@ -49,6 +60,8 @@ type Query {
   item(id: ID!): Item!
   users(roles: [ValidRoles!] = []): [User!]!
   user(id: ID!): User!
+  lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
+  list(id: ID!): List!
   revalite: AuthResponse!
 }
 
@@ -65,6 +78,9 @@ type Mutation {
   removeItem(id: ID!): Item!
   updateUser(updateUserInput: UpdateUserInput!): User!
   blockUser(id: ID!): User!
+  createList(createListInput: CreateListInput!): List!
+  updateList(updateListInput: UpdateListInput!): List!
+  removeList(id: ID!): List!
   signup(signupInput: SignupInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
 
@@ -101,6 +117,17 @@ input UpdateUserInput {
   id: ID!
   roles: [ValidRoles!]
   isActive: Boolean
+}
+
+input CreateListInput {
+  """Name List """
+  name: String!
+}
+
+input UpdateListInput {
+  """Name List """
+  name: String
+  id: ID!
 }
 
 input SignupInput {

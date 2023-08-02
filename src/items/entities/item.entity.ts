@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   Index,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -27,7 +26,7 @@ export class Item {
   @Field(() => String, { description: 'Quantity Units Item ', nullable: true })
   quantityUnits?: string;
 
-  @ManyToOne(() => User, (user) => user.items, { nullable: false })
+  @ManyToOne(() => User, (user) => user.items, { nullable: false,lazy: true })
   @Index('userId-index')
   @Field(() => User)
   user: User;
