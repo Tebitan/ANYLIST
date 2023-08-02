@@ -20,8 +20,8 @@ type User {
 
   """Last update User"""
   lastUpdateBy: User
-  items: [Item!]!
   itemCount: Int!
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
 }
 
 type Item {
@@ -45,7 +45,7 @@ type AuthResponse {
 }
 
 type Query {
-  items: [Item!]!
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
   item(id: ID!): Item!
   users(roles: [ValidRoles!] = []): [User!]!
   user(id: ID!): User!
