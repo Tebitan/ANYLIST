@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ListItem {
+  """ID ListItem """
+  id: ID!
+
+  """quantity ListItem """
+  quantity: Float!
+
+  """completed ListItem """
+  completed: Boolean!
+  list: List!
+  item: Item!
+}
+
 type List {
   """ID List """
   id: ID!
@@ -9,6 +22,8 @@ type List {
   """Name List """
   name: String!
   user: User!
+  items(offset: Int = 0, limit: Int = 10, search: String): [ListItem!]!
+  totalItems: Int!
 }
 
 type User {
@@ -45,6 +60,7 @@ type Item {
   """Quantity Units Item """
   quantityUnits: String
   user: User!
+  listItem: [ListItem!]!
 }
 
 type AuthResponse {
@@ -62,6 +78,7 @@ type Query {
   user(id: ID!): User!
   lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
   list(id: ID!): List!
+  listItem(id: String!): ListItem!
   revalite: AuthResponse!
 }
 
@@ -81,6 +98,8 @@ type Mutation {
   createList(createListInput: CreateListInput!): List!
   updateList(updateListInput: UpdateListInput!): List!
   removeList(id: ID!): List!
+  createListItem(createListItemInput: CreateListItemInput!): ListItem!
+  updateListItem(updateListItemInput: UpdateListItemInput!): ListItem!
   signup(signupInput: SignupInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
 
@@ -127,6 +146,35 @@ input CreateListInput {
 input UpdateListInput {
   """Name List """
   name: String
+  id: ID!
+}
+
+input CreateListItemInput {
+  """quantity ListItem """
+  quantity: Float = 0
+
+  """completed  ListItem"""
+  completed: Boolean = false
+
+  """ID  List"""
+  listId: ID!
+
+  """ID  Item"""
+  itemId: ID!
+}
+
+input UpdateListItemInput {
+  """quantity ListItem """
+  quantity: Float = 0
+
+  """completed  ListItem"""
+  completed: Boolean = false
+
+  """ID  List"""
+  listId: ID
+
+  """ID  Item"""
+  itemId: ID
   id: ID!
 }
 
