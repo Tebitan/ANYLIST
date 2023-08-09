@@ -46,6 +46,13 @@ import { ListItemModule } from './list-item/list-item.module';
 
     TypeOrmModule.forRoot({
       type: 'postgres',
+      ssl:
+        process.env.STATE === 'prod'
+          ? {
+              rejectUnauthorized: false,
+              sslmode: 'require',
+            }
+          : (false as any),
       host: process.env.BD_HOST,
       port: +process.env.DB_PORT,
       username: process.env.DB_USERNAME,
@@ -53,7 +60,6 @@ import { ListItemModule } from './list-item/list-item.module';
       database: process.env.BD_NAME,
       synchronize: true,
       autoLoadEntities: true,
-      ssl: process.env.DB_SSL === 'true',
     }),
     ItemsModule,
     UsersModule,
