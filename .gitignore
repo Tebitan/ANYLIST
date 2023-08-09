@@ -3,6 +3,7 @@
 
 #variables de entorno
 .env
+.env.prod
 
 # compiled output
 /dist
