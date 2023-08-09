@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -54,6 +53,7 @@ import { ListItemModule } from './list-item/list-item.module';
       database: process.env.BD_NAME,
       synchronize: true,
       autoLoadEntities: true,
+      ssl: process.env.DB_SSL === 'true',
     }),
     ItemsModule,
     UsersModule,
